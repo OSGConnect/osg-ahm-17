@@ -22,7 +22,7 @@ describe how to execute the program and transfer the output data.
 
 First, we log in to OSG Connect:
 
-~~~
+~~~shell_session
 $ ssh username@login.osgconnect.net    # username is your username
 password:                              # enter your password
 ~~~
@@ -31,25 +31,25 @@ We will get our example files for all today's lessons using `tutorial`.
 
 Let's get started with the *quickstart* tutorial:
 
-~~~
+~~~shell_session
 $ tutorial quickstart       # creates a directory "tutorial-quickstart"
 $ cd tutorial-quickstart    # script and input files are inside this directory
 ~~~
 
 We will look at two files in detail: "short.sh" and "tutorial01.submit"
 
-##Job execution script##
+## Job execution script ##
 
 Inside the tutorial directory, open up `short.sh` in an editor.
 
-~~~
+~~~shell_session
 $ nano short.sh
 ~~~
 
 This is a shell script, quite ordinary and much like the ones we worked
 with in Unit I.
 
-~~~
+~~~shell
 #!/bin/bash
 # short.sh: a short discovery job
 printf "Start time: "; /bin/date
@@ -96,7 +96,8 @@ Science complete!
 
 ~~~
 
-##Job submission file##
+## Job submission file ##
+
 So far, so good! Next we will create a simple (if verbose) HTCondor
 submit file.  A submit file tells the grid software _how_ to run
 your workload, with what properties and arguments, and how to collect
@@ -138,7 +139,7 @@ Submitting job(s).
 1 job(s) submitted to cluster 823.
 ~~~
 
-##Job status##
+## Job status ##
 
 Your first job is on the grid! The `condor_q` command tells the status of
 currently running jobs. Generally you will want to limit it to your own
@@ -152,7 +153,7 @@ $ condor_q username
 1 jobs; 0 completed, 0 removed, 0 idle, 1 running, 0 held, 0 suspended
 ~~~
 
-If you want to see all jobs running on the system, use condor_q without
+If you want to see all jobs running on the system, use `condor_q` without
 any extra parameters.  You can also get status on a specific job
 cluster -- the number that `condor_submit` gave you.
 
@@ -205,7 +206,7 @@ $ watch -n 5 "condor_q $USER 2>/dev/null"
 When your job has completed, it will disappear from the list.  To close
 `watch`, press control-C -- hold down Control and press C.
 
-##Job history##
+## Job history ##
 Once your job has finished, you can get information about its execution
 from the `condor_history` command:
 
@@ -219,7 +220,7 @@ You can see much more information about your job's final status using
 the -long option.
 
 
-##Job output##
+## Job output ##
 
 Once your job has finished, you can look at the files that HTCondor
 has returned to the working directory. If everything was successful,
