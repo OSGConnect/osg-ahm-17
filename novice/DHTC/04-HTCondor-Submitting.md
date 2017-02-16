@@ -46,8 +46,7 @@ Inside the tutorial directory, open up `short.sh` in an editor.
 $ nano short.sh
 ~~~
 
-This is a shell script, quite ordinary and much like the ones we worked
-with in Unit I.
+This is a shell script, quite ordinary.
 
 ~~~shell
 #!/bin/bash
@@ -66,7 +65,7 @@ To close nano, hold down Ctrl and press X. Press Y to save, and then
 Enter Now, make the script executable.  Recall that this is not
 necessary for shell programs that you create and run locally.  However,
 _it is extremely important for jobs running on the grid_.  So is the
-"shbang" line (`#!/bin/sh`).
+"shbang" line (`#!/bin/bash`).
 
 ~~~
 $ chmod +x short.sh
@@ -207,6 +206,7 @@ When your job has completed, it will disappear from the list.  To close
 `watch`, press control-C -- hold down Control and press C.
 
 ## Job history ##
+
 Once your job has finished, you can get information about its execution
 from the `condor_history` command:
 
