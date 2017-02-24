@@ -23,12 +23,12 @@ not form loop. Directed acyclic graph does not form loop and the nodes (jobs) ar
 along specific direction. In this section, we will learn how to 
 apply DAGMan to run a set of molecular dynamics (MD) simulations. 
 
-![fig 1](https://raw.githubusercontent.com/OSGConnect/tutorial-matlab-SimulatedAnnealing/master/Figs/RosenBrockFunction.png)
 
-<div>
+
+
 ![fig 1](https://raw.githubusercontent.com/OSGConnect/tutorial-dagman-namd/master/DAGManImages/Slide1.jpg)
 ![fig 2](https://raw.githubusercontent.com/OSGConnect/tutorial-dagman-namd/master/DAGManImages/Slide5.jpg)
-</div>
+
 
 <h2> Running MD Simulation with DAGMan   </h2> 
 
