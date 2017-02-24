@@ -38,7 +38,7 @@ submitting small jobs repeatedly with restart files may not be practical in many
 situations. DAGMan offers an elegant and simple solution to run the set of jobs. With 
 the DAGMan script one could run a long time scale MD simulations of biomolecules. 
 
-###Linear DAG###
+<h3> Linear DAG </h3>
 
 In our first example, we will break the MD simulation in four steps and run it through the 
 DAGMan script. NAMD software is used to run each MD simulation. For the sake of 
@@ -46,10 +46,7 @@ simplicity, the MD simulations run only for few
 integration steps to consume less computational time but demonstrate the ability 
 of DAGMan. 
 
-
 ![fig 3](https://raw.githubusercontent.com/OSGConnect/tutorial-dagman-namd/master/DAGManImages/Slide2.png)
-
-
 
 Say we have created four MD jobs: *A0*, *A1*, *A2* and *A3* that we want to run one 
 after another and combine the results. This means that the output files from the 
@@ -132,7 +129,7 @@ files `OutFilesFromNAMD_job0.tar.gz, OutFilesFromNAMD_job1.tar.gz, OutFilesFromN
 OutFilesFromNAMD_job3.tar.gz`. If the output files are not empty, the jobs are 
 successfully completed. Of course, a through check up requires looking at the output results.  
 
-###Parallel DAG###
+<h3> Parallel DAG </h3>
 
 ![fig 4](https://raw.githubusercontent.com/OSGConnect/tutorial-dagman-namd/master/DAGManImages/Slide3.png)
 
@@ -151,7 +148,7 @@ The directory contains the input files, job submission files and execution scrip
 jobs. What is missing here is the `.dag` file. See if you can write the DAGfile for this example 
 and submit the job. 
 
-###X-DAG###
+<h3> X-DAG </h3>
 We consider one more example of jobs A0, A1, X, B0 and B1 that allows the cross communication 
 between two parallel jobs. The jobs A0 and B0 are two-independent NAMD simulations. After 
 finishing A0 and B0, we do some analysis with the job X. The jobs A1 and B1 are two MD 
@@ -171,13 +168,13 @@ $ cd tutorial-dagman-namd/X-DAG
 
 Again we are missing the `.dag` file here. See if you can write the DAGfile for this example 
 
-###Job Retry and Rescue###
+<h2> Job Retry and Rescue </h2>
 
 In the above examples, the set of jobs have simple inter relationship.  Indeed,  DAGMan is 
 capable of dealing with set of jobs with complex inter relations.  One may also write a DAG 
 file for set of DAG files where each of the DAG file contains the workflow for set of condor jobs.  Also DAGMan can help with the resubmission of uncompleted portions of a DAG, when one or more nodes result in failure.  
 
-####Job Retry####
+<h3> Job Retry </h3>
 
 Say for example,  job A2 in the above example is  important and you want to eliminate the possibility as much as possible. One way is to re-try the specific job A2 a few times. DAGMan would re-try  failed jobs when you specify the following line at the end of dag file.
 
@@ -196,7 +193,7 @@ Retry A2 7 #This means re-try job A2 for seven times in case of failures.
 Retry A3 7 #This means re-try job A3 for seven times in case of failures.
 ~~~
  
-####Rescue DAG####
+ <h3> Rescue DAG </h3>
 
 In case DAGMan  does not complete the set of jobs, it would create a rescue DAG file with a 
 suffix `.rescue`. The rescue DAG file contains the information about where to restart 
