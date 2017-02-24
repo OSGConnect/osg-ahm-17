@@ -26,8 +26,8 @@ apply DAGMan to run a set of molecular dynamics (MD) simulations.
 
 
 
-![fig 1](https://raw.githubusercontent.com/OSGConnect/tutorial-dagman-namd/master/DAGManImages/Slide1.jpg)
-![fig 2](https://raw.githubusercontent.com/OSGConnect/tutorial-dagman-namd/master/DAGManImages/Slide5.jpg)
+![fig 1](https://raw.githubusercontent.com/OSGConnect/tutorial-dagman-namd/master/DAGManImages/Slide1.png)
+![fig 2](https://raw.githubusercontent.com/OSGConnect/tutorial-dagman-namd/master/DAGManImages/Slide5.png)
 
 
 <h2> Running MD Simulation with DAGMan   </h2> 
@@ -47,7 +47,7 @@ integration steps to consume less computational time but demonstrate the ability
 of DAGMan. 
 
 
-![fig 3](https://raw.githubusercontent.com/OSGConnect/tutorial-dagman-namd/master/DAGManImages/Slide2.jpg)
+![fig 3](https://raw.githubusercontent.com/OSGConnect/tutorial-dagman-namd/master/DAGManImages/Slide2.png)
 
 
 
@@ -134,7 +134,7 @@ successfully completed. Of course, a through check up requires looking at the ou
 
 ###Parallel DAG###
 
-![fig 4](https://raw.githubusercontent.com/OSGConnect/tutorial-dagman-namd/master/DAGManImages/Slide3.jpg)
+![fig 4](https://raw.githubusercontent.com/OSGConnect/tutorial-dagman-namd/master/DAGManImages/Slide3.png)
 
 
 Now we consider the workflow of two-linear set of jobs A0, A1, B0 and B1. Again these are 
@@ -159,7 +159,7 @@ simulations independent of each other. The job X determines what is the simulati
 of MD simulations A1 and B1. In the DAGMan language, X is the parent of A1 and B1.  
 
 
-![fig 5](https://raw.githubusercontent.com/OSGConnect/tutorial-dagman-namd/master/DAGManImages/Slide4.jpg)
+![fig 5](https://raw.githubusercontent.com/OSGConnect/tutorial-dagman-namd/master/DAGManImages/Slide4.png)
 
 
 The input files, job submission files and execution scripts of the 
