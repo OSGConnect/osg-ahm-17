@@ -11,9 +11,11 @@ title: Data storage and transfer
 
 
 <h2> Overview </h2>
+
 In this lesson, we will learn the basics of data storage and transfer for DHTC jobs and on OSG Connect. 
 
 <h2>Introduction to Data Handling for DHTC jobs</h2>
+
 Data handling is one of the trickiest parts of effectively using DHTC computing.
 New users often run into issues in regards to effectively transferring inputs to compute
 jobs or with getting output back.  However, most situations can be broken down
@@ -26,7 +28,8 @@ into a few basic use cases:
 
 We will consider each use case one by one.
 
-<h3>Jobs without large inputs or outputs</h3>
+<h3>Jobs with small inputs or outputs</h3>
+
 Jobs without large inputs or outputs are the easiest case to handle.   If jobs
 have inputs and outputs that are smaller than ~1 gigabyte then the builtin HTCondor
 file transfer mechanims will work to handle transfers to and from the compute node.  
@@ -38,6 +41,7 @@ scheduled to run and then transfer the output after the job completes back to
 your submit node.
 
 <h3>Jobs with large inputs but small outputs</h3>
+
 Jobs with large inputs but small outputs are a little harder to handle.
 Examples of these types of jobs, would be things such as BLAST which does
 searches for similar DNA sequences.  The inputs (DNA reference databases and DNA
@@ -63,6 +67,7 @@ in your submit file and allowing HTCondor to manage transferring outputs from
 the compute nodes to the submit node should work without problems.
 
 <h3>Jobs with small inputs and large outputs</h3>
+
 This use case deals with jobs that generate large outputs from a small set of
 inputs.  For example, a simulation may generate a large data set showing the
 evolution of a physical system based on a small set of input parameters.  
@@ -80,9 +85,19 @@ to talk to us so that we can come up with the best solution for your transfer
 needs. 
 
 <h3>Jobs with both large inputs and large outputs</h3>
+
 This use case is essentially just a combination of the prior two use cases.  As
 such, inputs can be handled using a web server or OASIS and transferring outputs
 will probably need some discussion with us to determine the best solution.
+
+<h3>Guidelines for Data Storage</h3>
+
+|   | **Recommended Limit**| **Purpose** | **Network mounted** | **Backed Up** | **Quota** | **Purge** | **Details**|
+|:------- |:----------------:|:------|:------:|:------:|:------:|:------:|:----------|
+| **home**    |  < 20 GB      | Meant for quick data access and not for submitting jobs.| Yes | Yes | 20 GB | No | [Data Storage](https://support.opensciencegrid.org/support/solutions/articles/12000002985-storage-solutions-on-osg-home-stash-and-public)|
+| **local-scratch**   |  < 25 GB      | Meant for large temporary storage and I/O for your jobs. Files older than 30 days are automatically removed. | No | No | No | Yes, 30 days | [Data Storage](https://support.opensciencegrid.org/support/solutions/articles/12000002985-storage-solutions-on-osg-home-stash-and-public)|
+| **stash**   |  N/A          | Meant for large storage and I/O for your jobs. | Yes | No | No | no | [Data Storage](https://support.opensciencegrid.org/support/solutions/articles/12000002985-storage-solutions-on-osg-home-stash-and-public)|
+| **public**  |  N/A          | Meant for sharing data and transfer input data via HTTP or staschcp | Yes | No | No | No | [Data Storage](https://support.opensciencegrid.org/support/solutions/articles/12000002985-storage-solutions-on-osg-home-stash-and-public)|
 
 <h2>Exploring the Stash system</h2>
 
@@ -103,10 +118,10 @@ This directory is an area on Stash that you can use to store files and
 directories.  It functions just like any other UNIX directory although it has
 additional functions that we'll go over shortly.
 
-For future use, let's create a file in Stash:
+For future use, let's create a file in the public part of Stash:
 
 ~~~
-$ cd ~/stash
+$ cd ~/stash/public/
 $ echo "Hello world" > my_hello_world
 ~~~
 
@@ -128,7 +143,7 @@ user@machine:/path/to/file .  Let's copy the file we just created from Stash to
 our local system:
 
 ~~~
-$ scp username@login.osgconnect.net:~/stash/my_hello_world .
+$ scp username@login.osgconnect.net:~/stash/public/my_hello_world .
 ~~~
 
 As you can see, `scp` uses similar syntax to the `cp` command that you were shown
@@ -136,15 +151,62 @@ previously.  To copy directories using `scp`, you'll just pass the `-r` option t
 it.  E.g:
 
 ~~~
-$ scp -r username@login.osgconnect.net:~/stash/my_directory .
+$ scp -r username@login.osgconnect.net:~/stash/public/my_directory .
 ~~~
 
 > #### Challenges
 >
-> * Create a directory with a file called `hello_world_2` in the `~/stash` directory and copy it from Stash to your local system.
+> * Create a directory with a file called `hello_world_2` in the `~/stash/public` directory and copy it from Stash to your local system.
 > * Create a directory called `hello_world_3` on your local system and copy it to the `stash` directory.
 
+<h2>Stash, staschp and stashcache</h2>
+
+StashCache is a data service for OSG which transparently caches data
+near compute sites for faster delivery to active grid jobs. The standard
+practice of using HTCondor file transfer or http to move data files to
+grid sites can be inefficient for certain workflows. StashCache uses a
+distributed network filesystem (based on XRootD proxy caching) which
+provides an alternative method for transferring input files to compute
+sites. It is implemented through a handful of strategically-distributed
+sites which provide caching of the input data files.
+
+<h3>When to use StashCache</h3>
+
+StashCache typically outperforms other methods in the following cases:
+
+* Jobs require large data files (> 500 MB)
+* The same data files are used repeatedly for many separate jobs
+
+<h3>How to use StashCache</h3>
+
+1)  Include the following line in the job's submit script to indicate that StashCache is required:
+
+    +WantsStashCache = true
+
+2)  Use the 'stashcp' command-line tool in the job wrapper script to transfer necessary data files to the compute host.
+
+First load the stashcp module:
+
+~~~
+$ module load stashcp
+~~~
+
+Then transfer your data:
+
+~~~
+$ cd $HOME
+$ stashcp /user/<userid>/public/my_hello_world $HOME/
+~~~
+
+
+<h2>StashCache Blast</h2>
+
+
+
+
+
 <h2>Transferring files to and from Stash using Globus</h2>
+
 An alternate method for accessing Stash is to use Globus.  Globus allows you
 to initiate transfers between Globus endpoints and will handle the actual file
 and directory transfers transparently without needing further input from you.
