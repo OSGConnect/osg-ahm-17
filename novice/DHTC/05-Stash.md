@@ -6,7 +6,9 @@ title: Data storage and transfer
 <div class="objectives" markdown="1">
 
 #### Objectives
-*   Discover how to transfer input and output data  
+*   Discover how to transfer input and output data
+*   Learn about StashCache, stashcp
+*   Run a StashCache based Blast workload
 </div>
 
 
@@ -111,7 +113,7 @@ passwd:       # your password
 Once done, you can change to the `stash` directory in your home area:
 
 ~~~
-$ cd ~/stash    
+$ cd ~/stash
 ~~~
 
 This directory is an area on Stash that you can use to store files and
@@ -122,13 +124,19 @@ For future use, let's create a file in the public part of Stash:
 
 ~~~
 $ cd ~/stash/public/
-$ echo "Hello world" > my_hello_world
+$ echo "Hello world" > my_hello_world.txt
 ~~~
 
 In addition, let's create a directory as well for future use:
 
 ~~~
 $ mkdir my_directory
+~~~
+
+One way of accessing this data is over HTTP. Open a web browser and go to the URL:
+
+~~~
+http://stash.osgconnect.net/+username/
 ~~~
 
 
@@ -143,7 +151,7 @@ user@machine:/path/to/file .  Let's copy the file we just created from Stash to
 our local system:
 
 ~~~
-$ scp username@login.osgconnect.net:~/stash/public/my_hello_world .
+$ scp username@login.osgconnect.net:~/stash/public/my_hello_world.txt .
 ~~~
 
 As you can see, `scp` uses similar syntax to the `cp` command that you were shown
@@ -195,144 +203,110 @@ Then transfer your data:
 
 ~~~
 $ cd $HOME
-$ stashcp /user/<userid>/public/my_hello_world $HOME/
+$ stashcp /user/<username>/public/my_hello_world $HOME/
 ~~~
 
 
 <h2>StashCache Blast</h2>
 
+This tutorial will use a
+[BLAST](http://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastH
+ome) workflow to demonstrate the functionality of StashCache for
+transferring input files to active job sites. BLAST (Basic Local
+Alignment Search Tool) is an open-source bioinformatics tool developed
+by the NCBI that searches for alignments between query sequences and a
+genetic database.
 
+The input files for a BLAST job include:
 
+* one or more query files
+* genetic database file
+* database index files
 
+In this exercise, the database is contained in a single 1.3 GB file, and
+the query is divided into 2 files of approximately 7.5 MB each (small
+enough to use the HTCondor file transfer mechanism). Each query must be
+compared to the database file using BLAST, so 2 jobs are needed in this
+workflow. If BLAST jobs have an excessively long run time, the query
+files can be further subdivided into smaller segments.
 
-<h2>Transferring files to and from Stash using Globus</h2>
-
-An alternate method for accessing Stash is to use Globus.  Globus allows you
-to initiate transfers between Globus endpoints and will handle the actual file
-and directory transfers transparently without needing further input from you.
-When the transfer is complete, Globus will send a notification to you indicating
-this.
-
-Let's transfer a file from your laptop to Globus.  Doing this will require an 
-application called Globus Connect Personal that allows Globus to transfer files
-and directories to and from your laptop. First go to the [Globus
-page](https://www.globus.org/globus-connect-personal) and download and install
-the globus connect personal installer specific to your system.  
-
-While that's running, you'll need to get a setup key from Globus in order to
-setup the Globus Connect Personal software.  
-
-*   First go to the [Globus](http://globus.org) page and register or login
-*   Next go to this [page](https://globus.org/xfer/ManageEndpoints#)
-*   Click on the add Globus Connect Personal link
-*   Enter a name for your endpoint on the page (remember this!)
-*   Click on "Generate setup Key"
-*   Select the key and copy the key
-
-Finally, start the Globus online personal software that you just installed.  The
-installer will ask for the setup key that you obtained from the Globus website.
-At this point, the install and setup of Globus Connect Personal is complete.
-
-Now go to [Globus](https://www.globus.org/app/transfer). 
-For the first endpoint, enter username#name
-where name is the name you choose for the endpoint above. You should now see the
-files from your laptop displayed.  For the second endpoint, enter
-`connect#stash` and hit enter.  You should now see the contents of your home
-directory on OSG Connect.  Now double click on the `data` directory.  Select a
-file on your laptop and click on the right arrow on the top of the screen to
-start a transfer to Stash. You can transfer files or directories to your
-laptop by selecting it in the Stash window and selecting the left arrow.
-
-> #### Challenges 
->
-> * Copy a file to Stash from your laptop using Globus.  
-> * Next copy the `my_hello_world` file from Stash to your laptop using Globus.
-
-<h2>Putting it all together</h2>
-
-Let us do an example calculation to give us a taste of a what a typical
-job may involve. We will peform a  molecular dynamics simulation of a
-small protein in implicit water. To get the necessary files, we use the *tutorial*
-command on OSG. 
-
-Log in to OSG Connect:
+Usually, the database files used with BLAST are quite large. Due
+to its size (1.3 GB) and the fact that it is used for multiple
+jobs, the database file and corresponding index files will
+be transferred to the compute sites using StashCache, which
+takes advantage of proxy caching to improve transfer speed and
+efficiency. Learn more about StashCache and basic usage instructions
+[here](https://support.opensciencegrid.org/solution/articles/12000002775
+-introduction-to-stashcache).
 
 ~~~
-$ ssh username@login.osgconnect.net
+$ tutorial stashcache-blast
+$ cd tutorial-stashcache-blast
 ~~~
 
-Type:
+The tutorial-stashcache-blast directory contains a number of files, described below:
 
-~~~
-$ tutorial namd
-$ cd ~/tutorial-namd
-$ rm *.inp
-$ rm *.conf
-~~~
+* HTCondor submit script: **blast.submit**
+* Job wrapper script: **blast_wrapper.sh**
+* Query files: **query_0.fa  query_1.fa**
 
-*Aside*: [NAMD](http://www.ks.uiuc.edu/Research/namd/) is a widely used
-molecular dynamics simulation program. It lets users specify a molecule in some
-initial state and then observe its time evolution subject to forces.
-Essentially, it lets you go from a specifed molecular
-[structure](http://en.wikipedia.org/wiki/Superoxide_dismutase#mediaviewer/File:Superoxide_dismutase_2_PDB_1VAR.png)
-to a [simulation](https://www.youtube.com/watch?v=mk3cLd9PUPA&list=PL418E1C62DD9FC8BA&index=1)
-of its behavior in a particular environment.  It has been used to study polio
-eradication, similations of graphene, and studies of biofuels.
+In addition to these files, the following input files are needed for the jobs:
 
-You should see the following files in the directory:
+* database file: **nt.fa**
+* database index files: **nt.fa.nhr  nt.fa.nin  nt.fa.nsq**
 
-~~~
-$ ls
-namd_run.sh  namd_run.submit     README.md
-ubq.pdb      ubq.psf
-~~~
+These files are currently being stored in `/cvmfs/stash.osgstorage.org/user/eharstad/public/blast_database/`.
 
-The files 
+***
+First, let's take a look at the HTCondor job submission script:
 
-~~~
-namd_run.submit #HTCondor job submission script file.
-namd_run.sh #Job execution script file.
-ubq.pdb #Input pdb file for NAMD.
-ubq.psf #Input file for NAMD.
-~~~
+    $ cat blast.submit
+    universe = vanilla
 
-We need two files in order to successfully run the simulation. 
-The file `par_all27_prot_lipid.inp` which is the parameter file and is required for 
-the NAMD simulations. The other file needed is `ubq_gbis_eq.conf` which has
-the input configuration for the NAMD simulations.  
+    executable = blast_wrapper.sh
+    arguments  = blastn -db /cvmfs/stash.osgstorage.org/user/eharstad/public/blast_database/nt.fa -query $(queryfile)
+    should_transfer_files = YES
+    when_to_transfer_output = ON_EXIT
+    transfer_input_files = $(queryfile)
 
-> #### Challenges
->
-> * You can find the missing files at [here](https://stash.osgconnect.net/+sthapa/tutorial-namd), 
-    download the files from that website and upload it to the tutorial-namd file on OSG Connect.
+    +WantsCvmfsStash = true
+    requirements = (GLIDEIN_ResourceName == "MWT2" || GLIDEIN_ResourceName == "Nebraska" || GLIDEIN_ResourceName ==  "Sandhills")
 
-Now submit the NAMD job. 
+    output = job.out.$(Cluster).$(Process)
+    error = job.err.$(Cluster).$(Process)
+    log = job.log.$(Cluster).$(Process)
 
-~~~
-$ condor_submit namd_run.submit 
-~~~
+    # For each file matching query*.fa, submit a job
+    queue queryfile matching query*.fa
 
-Once the job completes, you will see non-empty `ubq_gbis_eq.0.log`
-file where the standout output from the programs is written.
+The executable for this job is a wrapper script, `blast_wrapper.sh`, that takes as arguments the blast command that we want to run on the compute host.  We specify which query file we want transferred (using HTCondor) to each job site with the *transfer_input_files* command.
 
-> #### Challenges
->
-> * Download the output file from the NAMD job to your laptop and view it.  Try
-> using a different method to transfer the file than before.
+Note the one additional line that is required in the submit script of any job that uses StashCache:
 
+    +WantsCvmfsStash = true
 
-You should see:
+Finally, since there are multiple query files, we submit them with the command `queue queryfile matching query*.fa` command.  Because we have used the $(queryfile) macro in the name of the query input files, only one query file will be transferred to each job.
 
+***
+Now, let's take a look at the job wrapper script which is the job's executable:
 
-~~~
-$ tail  ubq_gbis_eq.0.log
+    $ cat blast_wrapper.sh
+    #!/bin/bash
+    # Load the blast module
+    module load blast
 
-WallClock: 6.084453  CPUTime: 6.084453  Memory: 53.500000 MB
-Program finished.
- 
-~~~
+    "$@"
 
-The above lines indicate the NAMD simulation was successful. 
+The wrapper script loads the blast modules so that it can access the Blast software on the compute host.
+
+You are now ready to submit the jobs:
+
+    $ condor_submit blast.submit
+
+ Each job should run for approximately 3-5 minutes.  You can monitor the jobs with the condor_q command:
+
+    $ condor_q <username>
+
 
 <div class="keypoints" markdown="1">
 
