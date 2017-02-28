@@ -2,7 +2,6 @@
 layout: lesson
 root: ../..
 title: Large Scale Computation with HTCondor’s Queue Command
-Data storage and transfer
 ---
 
 <div class="objectives" markdown="1">
