@@ -1,3 +1,5 @@
+The webpage is located at https://osgconnect.github.io/osg-ahm-17/index.html
+
 ============================
 #Software Carpentry - Open Science Grid (SWC-OSG) Workshop#
 ============================
