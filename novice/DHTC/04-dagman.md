@@ -1,9 +1,18 @@
-[title]: - "DAGMan - NAMD example"
-[TOC]
-<h2> Objectives </h2>
-- [x] Learn about graphs as they relate to computation
-- [x] Learn how a graph manager can implement a workflow management system
-- [x] Use DAGMan to manage a set of molecular dyanmics calculations
+---
+layout: lesson
+root: ../..
+title:Handling Job Dependecies with DAGMan
+---
+
+<div class="objectives" markdown="1">
+#### Objectives
+* Learn about graphs as they relate to computation
+* Learn how a graph manager can implement a workflow management system
+* Use DAGMan to manage a set of molecular dyanmics calculations
+* How to write a DAGMan input file for a workflow
+</div>
+
+
 
 <h2> Overview </h2>
 
@@ -223,12 +232,11 @@ be `linear.dag.rescue`. So we re-submit the rescue DAG task as follows:
 
 	$ condor_submit_dag linear.dag.rescue
  
+<div class="keypoints" markdown="1">
+#### Key Points
+* DAGMan handles computational jobs that are mapped as a directed acyclic graph.
+* `condor_submit_dag` is the command to submit a DAGMan task. 
+*  Job Retry and Job Rescue mechanism in DAGMan are helpful when running a complex workflow
+</div>
 
-<h2> Keypoints </h2>
-- [x] DAGMan handles computational jobs that are mapped as a directed acyclic graph.
-- [x] `condor_submit_dag` is the command to submit a DAGMan task. 
-- [x] One may write DAGMan files consisting of several DAGMan tasks. 
 
-
-<h2> Getting Help </h2>
-For assistance or questions, please email the OSG User Support team  at <mailto:user-support@opensciencegrid.org> or visit the [help desk and community forums](http://support.opensciencegrid.org).

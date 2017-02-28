@@ -268,12 +268,14 @@ jobs finished, execute the `post_script.sh  script to sort the results.
     ./post_script.sh
 
 
-<h2> Key Points </h2>
-- [x] Scaling up the computational resources on OSG is crucial to taking full advantage of grid computing.
-- [x] Changing the value of `Queue` allows the user to scale up the resources.
-- [x] `Arguments` allows you to pass parameters to a job script.
-- [x] `$(Cluster)` and `$(Process)` can be used to name log files uniquely.
-- [x]  Check the HTCondor manual to learn more about the `Queue` command (https://research.cs.wisc.edu/htcondor/manual/latest/2_5Submitting_Job.html).
 
-<h2> Getting Help </h2>
-For assistance or questions, please email the OSG User Support team  at <mailto:user-support@opensciencegrid.org> or visit the [help desk and community forums](http://support.opensciencegrid.org).
+<div class="keypoints" markdown="1">
+#### Key Points
+
+<h2> Key Points </h2>
+* Scaling up the computational resources on OSG is crucial to taking full advantage of grid computing.
+* Changing the value of `Queue` allows the user to scale up the resources.
+* `Arguments` allows you to pass parameters to a job script.
+* `$(Cluster)` and `$(Process)` can be used to name log files uniquely.
+* Check the HTCondor manual to learn more about the `Queue` command (https://research.cs.wisc.edu/htcondor/manual/latest/2_5Submitting_Job.html).
+</div>
