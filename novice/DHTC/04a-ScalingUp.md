@@ -5,6 +5,15 @@ title: Large Scale Computation with HTCondor’s Queue Command
 Data storage and transfer
 ---
 
+<div class="objectives" markdown="1">
+
+#### Objectives
+*   Learn how to submit multiple jobs with a single job description file 
+*   Learn to efficiently use the Queue command 
+</div>
+
+
+
 <h2> Overview </h2>
 
 
