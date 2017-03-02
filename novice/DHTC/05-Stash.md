@@ -30,6 +30,16 @@ into a few basic use cases:
 
 We will consider each use case one by one.
 
+<div class="keypoints" markdown="1">
+#### What is Big Data?
+In this module we use the terms *big data*, *small* and *large*. These are somewhat relative
+terms. What is considered to be big data on your workstation (e.g. difficult to process due 
+to the size) is different from what is considered big on on the grid, cloud or super
+computers. Data amounts in the context of OSG is most of the time referring to the amount
+of data that needs to be transferred to the compute nodes. Large data can be for example
+*a single job accessing 50 GBs* or, *100,000 jobs accessing 100 MBs*.
+</div>
+
 <h3>Jobs with small inputs or outputs</h3>
 
 Jobs without large inputs or outputs are the easiest case to handle.   If jobs
@@ -52,17 +62,16 @@ output (locations of similar sequences and similarity of these sequences) tends
 to be kilobytes or megabytes in size.  
 
 If the majority of the inputs are databases or reference files a possible
-solution would be to place the input files on a publicly accessible webserfer.
+solution would be to place the input files on a publicly accessible webserver.
 Then jobs would wget the appropriate files when they start running.  Since most
 OSG sites have a Squid server, this will minimize the network traffic outside of
 the site running your jobs.  If the majority of the input is in reference files
 that are identical between jobs, then another alternative would be to use a
 service such as OASIS that will make the reference files available on the
 majority of OSG sites.  Jobs can then access the files as if they are on the
-compute node and only the files that are accessed will be transferred.  If the
-input files need to remain private or if the inputs drastically change between
-jobs, you should probably discuss this with us so that we can help you come up
-with a good solution.
+compute node and only the files that are accessed will be transferred.
+
+Further down we will introduce another solution: StachCache and stashcp.
 
 Since the output files are small (i.e. < ~1GB), using the `transfer_output_files` option
 in your submit file and allowing HTCondor to manage transferring outputs from
