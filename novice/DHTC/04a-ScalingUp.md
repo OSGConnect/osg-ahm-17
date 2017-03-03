@@ -1,7 +1,7 @@
 ---
 layout: lesson
 root: ../..
-title: Large Scale Computation with HTCondor’s Queue Command
+title: Large Scale Computation of Concurrent Jobs with HTCondor’s Queue Command
 ---
 
 <div class="objectives" markdown="1">
