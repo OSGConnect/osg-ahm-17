@@ -1,7 +1,7 @@
 ---
 layout: lesson
 root: ../..
-title: Large Scale Computation of Concurrent Jobs with HTCondor’s Queue Command
+title: Large Scale Computation with HTCondor
 ---
 
 <div class="objectives" markdown="1">
@@ -16,7 +16,7 @@ title: Large Scale Computation of Concurrent Jobs with HTCondor’s Queue Comman
 <h2> Overview </h2>
 
 
-Many large scale computations require the ability to process multiple jobs concurrently. Consider the extensive
+Many large scale computations require the ability to process multiple jobs in parallel. Consider the extensive
 sampling done for a multi-dimensional Monte Carlo integration, parameter sweep for a given model or molecular
 dynamics simulation with several initial conditions. These calculations require 
 submitting many jobs. About a million CPU hours per day are available to OSG users
@@ -81,7 +81,7 @@ Let us take a look at the execution script, `scalingup-python-wrapper.sh`
 
 The wrapper loads the the relevant modules and then executes the python script `rosen_brock_brute_opt.py`. The python script takes four argument but they are optional. If we don't supply these optional arguments, the values are internally assigned.
 
-<h2> Submitting jobs concurrently </h2>
+<h2> Submitting set of jobs with single submit file </h2>
 
 ![fig 1](https://raw.githubusercontent.com/OSGConnect/tutorial-ScalingUp-Python/master/Images/Slide08.png)
 
