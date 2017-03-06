@@ -214,8 +214,8 @@ from the `condor_history` command:
 
 ~~~
 $ condor_history 1144
- ID      OWNER            SUBMITTED     RUN_TIME ST   COMPLETED CMD
- 1144.0   username          3/6 09:46   0+00:00:12 C   3/6 09:46 /home/username/
+ID     OWNER          SUBMITTED   RUN_TIME     ST COMPLETED   CMD            
+1144.0   osguser50       3/6  00:17   0+00:00:27 C   3/6  00:28 /share/training/..
 ~~~
 
 You can see much more information about your job's final status using
@@ -254,8 +254,8 @@ is `condor_rm`, and it takes only one argument: the job cluster or job ID.
 ~~~
 $ condor_submit tutorial01.submit
 Submitting job(s).
-1 job(s) submitted to cluster 829
-$ condor_rm 829
+1 job(s) submitted to cluster 1145 
+$ condor_rm 1145
 Cluster 829 has been marked for removal.
 ~~~
 
@@ -265,7 +265,7 @@ as argument for condor_rm:
 ~~~
 $ condor_submit tutorial01.submit
 Submitting job(s).
-1 job(s) submitted to cluster 829
+1 job(s) submitted to cluster 1146
 $ condor_rm username
 All jobs of user "username" have been marked for removal
 ~~~
@@ -359,7 +359,7 @@ You can test this job by submitting and monitoring it as we have just covered:
 ~~~
 $ condor_submit osg-template-job.submit
 Submitting job(s).
-1 job(s) submitted to cluster 830
+1 job(s) submitted to cluster 1149
 ~~~
 
 The filenames for this job includes a job id, which means that if you submit more
@@ -367,8 +367,8 @@ than one job, they will all have unique outputs.
 
 ~~~
 $ ls *.output
-job.830.0.output
-job.831.0.output
+job.1151.0.output
+job.1152.0.output
 ~~~
 
 
