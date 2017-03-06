@@ -167,7 +167,7 @@ description file is available in `Example2` directory.  Take a look at the job d
     $ cd Example2
     $ cat  ScalingUp-PythonCals.submit
     
-    ...
+    [...]
     #Supply arguments 
     arguments = -9 9 -9 9
 
@@ -180,7 +180,7 @@ description file is available in `Example2` directory.  Take a look at the job d
 
     arguments = -8 8 -8 8
     queue 
-    ...
+    [...]
 
 Let us submit the above job
 
@@ -209,7 +209,7 @@ job description file. There is a way to implement compact queue expression and  
 arguments for each job. Take a look at the job description file in Example3. 
 
     $ cat Example3/ScalingUp-PythonCals.submit
-    ...
+    [...]
     queue arguments from (
     -9 9 -9 9 
     -8 8 -8 8 
@@ -221,7 +221,6 @@ arguments for each job. Take a look at the job description file in Example3.
     -2 2 -2 2 
     -1 1 -1 1 
     )
-    ...
 
 Let us submit the above job
 
@@ -241,7 +240,7 @@ illustrated in Example4.
     $ cd Example4
     $ cat ScalingUp-PythonCals.submit
 
-    ...
+    [...]
     arguments = $(x_low) $(x_high) $(y_low) $(y_high)
 
     # Queue command  
