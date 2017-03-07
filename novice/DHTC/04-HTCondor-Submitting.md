@@ -258,7 +258,7 @@ $ condor_submit tutorial01.submit
 Submitting job(s).
 1 job(s) submitted to cluster 1145 
 $ condor_rm 1145
-Cluster 829 has been marked for removal.
+Cluster 1145 has been marked for removal.
 ~~~
 
 Sometimes it is useful to remove all your jobs. You can do that by specifying your username
