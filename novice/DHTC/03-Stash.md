@@ -19,11 +19,11 @@ Stash is a distributed filesystem for temporary storage on OSG Connect. You can 
 
 First, log in to OSG Connect:
 ~~~
-ssh username@login.osgconnect.net #Connect to the login node with your username
+ssh username@login.osgconnect.net # Connect to the login node with your username
 passwd:       # your password
 ~~~
 
-Once done, you can change to the 'data' directory in your home area:
+Once done, you can change to the `data` directory in your home area:
 ~~~
 $ cd ~/data    # This is your *stash* directory
 ~~~
@@ -32,14 +32,14 @@ $ cd ~/data    # This is your *stash* directory
 You can also make data on *stash* publically available on the web. Any data copied or moved to the directory *~/data/public* can be accessed here:
 
 ~~~
-http://stash.osgconnect.net/+yourusername.
+http://stash.osgconnect.net/~yourusername.
 ~~~
 
 
 <h2> File Transfer to Stash </h2> 
 
-We can transfer files from our laptop to *stash* with scp, sftp, or 
-Globus Connect. For small files (<50MB), it is fine to use scp or sftp utilities. For larger files 
+We can transfer files from our laptop to *stash* with `scp`, `sftp`, or 
+Globus. For small files (<50MB), it is fine to use `scp` or `sftp` utilities. For larger files 
 or when your access may be intermittent, we recommend using Globus.
  
 To transfer a file called "BigData.tar.gz" via scp from your local laptop to *stash*

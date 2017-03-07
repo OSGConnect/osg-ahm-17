@@ -11,10 +11,9 @@ title: HTCondor scripts
 </div>
 
 <h2>Overview</h2> 
-In this section, we will learn the basics of HTCondor in submitting and monitoring jobs. The jobs are 
-submitted through the login node of OSG Connect. The submitted jobs are executed on the remote worker 
-node(s) and the outputs are transfered back to the login node. In the HTCondor job submit file, we have 
-to describe how to execute the program and transfer the output data. 
+In this section, we will learn the basics of HTCondor for submitting and monitoring jobs. The jobs are 
+submitted through the OSG Connect login node. The submitted jobs are executed on the remote worker 
+node(s) and the outputs are transfered back to the login node. 
 
 <h2>Login to OSG Connect </h2>
 
@@ -29,8 +28,8 @@ $ passwd:                            # enter your password
 We will get the relevant example files using the *tutorial* command. Run the quickstart tutorial:
 
 ~~~
-$ tutorial quickstart #creates a directory "tutorial-quickstart".
-$ cd ~/tutorial-quickstart #relevant script and input files are inside this directory
+$ tutorial quickstart # creates a directory "tutorial-quickstart".
+$ cd ~/tutorial-quickstart # relevant script and input files are inside this directory
 ~~~
 
 We will look at two files in detail: "short.sh" and "tutorial01"
@@ -87,6 +86,8 @@ Science complete!
 ~~~
 
 ##Job submission file##
+The HTCondor job submit file describes the job requirements, how to execute the program and transfer the input/output data. 
+
 Create an HTCondor submit file. So far, so good! Next we will create a 
 simple (if verbose) HTCondor submit file.
 
@@ -127,7 +128,7 @@ Submitting job(s).
 
 ##Job status##
 
-The condor_q command tells the status of currently running jobs. Generally you will want to limit it to your own jobs:
+The `condor_q` command tells the status of currently running jobs. Generally you will want to limit it to your own jobs:
 
 ~~~
 $ condor_q username
@@ -148,10 +149,10 @@ $ condor_q 823
 1 jobs; 0 completed, 0 removed, 0 idle, 1 running, 0 held, 0 suspended
 ~~~
 
-Note the ST (state) column. Your job will be in the I state (idle) if it hasn't 
-started yet. If it's currently scheduled and running, it will have state R (running). If it has completed already, it will not appear in condor_q.
+Note the ST (state) column. Your job will be in the `I` state (idle) if it hasn't 
+started yet. If it's currently scheduled and running, it will have state `R` (running). If it has completed already, it will not appear in condor_q.
 
-Let's wait for your job to finish – that is, for condor_q not to show the job in its output. A useful tool for this is watch – it runs a program repeatedly, letting you see how the output differs at fixed time intervals. Let's submit the job again, and watch condor_q output at two-second intervals:
+Let's wait for your job to finish – that is, for `condor_q` not to show the job in its output. A useful tool for this is watch – it runs a program repeatedly, letting you see how the output differs at fixed time intervals. Let's submit the job again, and watch condor_q output at two-second intervals:
 
 ~~~
 $ condor_submit tutorial01
@@ -164,7 +165,7 @@ When your job has completed, it will disappear from the list.  To close watch, h
 and press C.
 
 ##Job history##
-Once your job has finished, you can get information about its execution from the condor_history command:
+Once your job has finished, you can get information about its execution from the `condor_history` command:
 
 ~~~
 $ condor_history 823
@@ -172,16 +173,17 @@ $ condor_history 823
  823.0   username            8/21 09:46   0+00:00:12 C   8/21 09:46 /home/username/
 ~~~
 
-You can see much more information about your job's final status using the -long option.
+You can see much more information about your job's final status using the `-long` option, i.e. `condor_history -long <job_id>`
 
 
 ##Job output##
 Once your job has finished, you can look at the files that HTCondor has returned to the 
-working directory. If everything was successful, it should have returned: a log file from 
-Condor for the job cluster: jog.log
-* an output file for each job's output: job.output
-* an error file for each job's errors: job.error
-* a log  file for each job's log: job.log
+working directory. If everything was successful, it should have returned three files:
+
+* `job.output`: An output file for each job's output
+* `job.error`: An error file for each job's errors
+* `job.log`: A log  file for each job's log
+
 Read the output file. It should be something like this:
 
 ~~~
