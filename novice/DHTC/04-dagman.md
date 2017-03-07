@@ -154,7 +154,7 @@ Only two jobs are running now: the DAGMan job and the top-level parent, i.e. job
 
 Sometimes, we need to perform a task before a job is submitted or after it is completed. Such pre-processing and post-processing are handled in DAGMan via SCRIPT command. Now let us see how this work for the linear DAG of NAMD jobs. 
 
-    $ cd LinearDAG_PrePost
+    $ cd ../LinearDAG-PrePost
     $ cat linear_prepost.dag
 
     ######DAG file###### 
