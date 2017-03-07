@@ -1,7 +1,7 @@
 ---
 layout: lesson
 root: ../..
-title: Large Scale Computation and Handling Job Dependecies with DAGMan
+title: Workflow management with DAGMan
 ---
 
 <div class="objectives" markdown="1">

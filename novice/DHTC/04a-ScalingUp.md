@@ -1,7 +1,7 @@
 ---
 layout: lesson
 root: ../..
-title: Large Scale Computation of Concurrent Jobs with HTCondor’s Queue Command
+title: Large Scale Computation with HTCondor
 ---
 
 <div class="objectives" markdown="1">
@@ -16,13 +16,15 @@ title: Large Scale Computation of Concurrent Jobs with HTCondor’s Queue Comman
 <h2> Overview </h2>
 
 
-Many large scale computations require the ability to process multiple jobs concurrently. Consider the extensive
+Many large scale computations require the ability to process multiple jobs in parallel. Consider the extensive
 sampling done for a multi-dimensional Monte Carlo integration, parameter sweep for a given model or molecular
 dynamics simulation with several initial conditions. These calculations require 
 submitting many jobs. About a million CPU hours per day are available to OSG users
 on an opportunistic basis. Learning how to scale up and control large
 numbers of jobs is essential to realize the full potential of distributed high
 throughput computing on the OSG.
+
+![fig 1](https://raw.githubusercontent.com/OSGConnect/tutorial-ScalingUp-Python/master/Images/Slide1.png)
 
 The  HTCondor's `Queue` command can run multiple jobs from a single job description file. In this tutorial, we will see how to scale up the calculations for a simple python example using the HTCondor’s Queue command.
 
@@ -45,7 +47,7 @@ Let us take a look at our objective function that we are trying to optimize.
 This a two dimensional Rosenbrock function. Clearly, the minimum is located at (1,1). Rosenbrock
 function is one of the test function used to test the robustness of an optimization method.
 
-![fig 1](https://raw.githubusercontent.com/OSGConnect/tutorial-matlab-SimulatedAnnealing/master/Figs/RosenBrockFunction.png)
+![fig 2](https://raw.githubusercontent.com/OSGConnect/tutorial-ScalingUp-Python/master/Images/RosenBrockFunction.png)
 
 Here, we are going to use the brute force optimization approach to evaluate the two dimensional Rosenbrock function on grids of points. The boundary values for the grid points are randomly assigned inside the python script. However, these default values may be replaced by 
 user supplied values.
@@ -81,9 +83,10 @@ Let us take a look at the execution script, `scalingup-python-wrapper.sh`
 
 The wrapper loads the the relevant modules and then executes the python script `rosen_brock_brute_opt.py`. The python script takes four argument but they are optional. If we don't supply these optional arguments, the values are internally assigned.
 
-<h2> Submitting jobs concurrently </h2>
+<h2> Submitting set of jobs with single submit file </h2>
 
-![fig 1](https://raw.githubusercontent.com/OSGConnect/tutorial-ScalingUp-Python/master/Images/Slide08.png)
+![fig 3](https://raw.githubusercontent.com/OSGConnect/tutorial-ScalingUp-Python/master/Images/Slide2.png)
+
 
 Now let us take a look at job description file 
 
@@ -155,7 +158,7 @@ condition as arguments.
 
 <h3> Supply multiple arguments via  Queue command </h3>
 
-![fig 1](https://raw.githubusercontent.com/OSGConnect/tutorial-ScalingUp-Python/master/Images/Slide09.png)
+![fig 4](https://raw.githubusercontent.com/OSGConnect/tutorial-ScalingUp-Python/master/Images/Slide3.png)
 
 It is possible to use a single file to supply multiple arguments. We can take the job description 
 file from the previous example, and modify it slightly to submit several jobs.  The modified job 
@@ -164,7 +167,7 @@ description file is available in `Example2` directory.  Take a look at the job d
     $ cd Example2
     $ cat  ScalingUp-PythonCals.submit
     
-    ...
+    [...]
     #Supply arguments 
     arguments = -9 9 -9 9
 
@@ -177,7 +180,7 @@ description file is available in `Example2` directory.  Take a look at the job d
 
     arguments = -8 8 -8 8
     queue 
-    ...
+    [...]
 
 Let us submit the above job
 
@@ -193,7 +196,8 @@ jobs finished, execute the `post_script.sh  script to sort the results.
 
 <h3> Variable expansion via Queue command </h3>
 
-![fig 1](https://raw.githubusercontent.com/OSGConnect/tutorial-ScalingUp-Python/master/Images/Slide10.png)
+![fig 5](https://raw.githubusercontent.com/OSGConnect/tutorial-ScalingUp-Python/master/Images/Slide4.png)
+
 
 A major part of the job description file looks same as the previous example. The main 
 difference is that the addition of  `arguments` keyword.  Each time the queue command appears 
@@ -205,7 +209,7 @@ job description file. There is a way to implement compact queue expression and  
 arguments for each job. Take a look at the job description file in Example3. 
 
     $ cat Example3/ScalingUp-PythonCals.submit
-    ...
+    [...]
     queue arguments from (
     -9 9 -9 9 
     -8 8 -8 8 
@@ -217,7 +221,6 @@ arguments for each job. Take a look at the job description file in Example3.
     -2 2 -2 2 
     -1 1 -1 1 
     )
-    ...
 
 Let us submit the above job
 
@@ -237,7 +240,7 @@ illustrated in Example4.
     $ cd Example4
     $ cat ScalingUp-PythonCals.submit
 
-    ...
+    [...]
     arguments = $(x_low) $(x_high) $(y_low) $(y_high)
 
     # Queue command  

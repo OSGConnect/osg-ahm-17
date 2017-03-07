@@ -81,38 +81,41 @@ Please contact user support staff at [user-support@opensciencegrid.org](mailto:u
 
 Commonly used software and libraries on the Open Science Grid are available in a
 central repository (known as OASIS) and accessed via the *module* command. We will see how to 
-search for, load, and use software packages.
+search for, load, and use software modules.
 
 We will also cover the usage of the built-in *tutorial* command. Using *tutorial*,
 we load a variety of job templates that cover basic usage, specific use cases, and best practices.
 
 <h3> Software Applications </h3>
 
-We will be submitting jobs to the OSG through the OSG Connect login node.
+We will be submitting jobs to the OSG through a submit host.
 Log in with secure shell  
 
 ~~~
-$ ssh username@login.osgconnect.net
+$ ssh username@training.osgconnect.net
 ~~~
 
 
 
-Once you are logged in, you can check the 
-available modules: 
+Once you are logged in, you can check the available modules: 
 
 ~~~
 $ module avail
  
+   ANTS/1.9.4                  dmtcp/2.5.0                lapack/3.5.0                     protobuf/2.5
+   ANTS/2.1.0           (D)    ectools                    lapack/3.6.1              (D)    psi4/0.3.74
+   MUMmer3.23/3.23             eemt/0.1                   libXpm/3.5.10                    python/2.7        (D)
+   OpenBUGS/3.2.3              elastix/2015               libgfortran/4.4.7                python/3.4
+   OpenBUGS-3.2.3/3.2.3        espresso/5.1               libtiff/4.0.4                    python/3.5.2
+   R/3.1.1              (D)    espresso/5.2        (D)    llvm/3.6                         qhull/2012.1
+   R/3.2.0                     ete2/2.3.8                 llvm/3.7                         root/5.34-32-py34
+   R/3.2.1                     expat/2.1.0                llvm/3.8.0                (D)    root/5.34-32
+   R/3.2.2                     ffmpeg/0.10.15             lmod/5.6.2                       root/6.06-02-py34 (D)
+   R/3.3.1                     ffmpeg/2.5.2        (D)    madgraph/2.1.2                   rosetta/2015
+   R/3.3.2                     fftw/3.3.4-gromacs         madgraph/2.2.2            (D)    rosetta/2016-02
+   RAxML/8.2.9                 fftw/3.3.4          (D)    matlab/2013b                     rosetta/2016-32   (D)
+   SeqGen/1.3.3                fiji/2.0                   matlab/2014a                     ruby/2.1
 
--------- /cvmfs/oasis.opensciencegrid.org/osg/modules/modulefiles/Core ---------
-   ANTS/1.9.4                  lapack/3.5.0
-   ANTS/2.1.0           (D)    lapack/3.6.1              (D)
-   MUMmer3.23/3.23             libXpm/3.5.10
-   OpenBUGS/3.2.3              libgfortran/4.4.7
-   OpenBUGS-3.2.3/3.2.3        libtiff/4.0.4
-   R/3.1.1              (D)    llvm/3.6
-   R/3.2.0                     llvm/3.7
-   R/3.2.1                     llvm/3.8.0                (D)
  
 [...]
 
@@ -124,7 +127,7 @@ Use "module keyword key1 key2 ..." to search for all possible modules matching a
 ~~~
 
 In order to load a module, you need to run "module load [modulename]".  Say for
-example you want to load R package, 
+example you want to load R module, 
 
 ~~~
 $ module load R 
@@ -133,7 +136,7 @@ $ module load R
 This sets up the R package for you. Now you can do some test calculations with R. 
 
 ~~~
-$ R # invoke R package
+$ R # invoke R  
 
 > cos(45)  # simple on-screen calculation with cosine function
 [1] 0.525322
@@ -148,8 +151,7 @@ $ module unload R
 
 <h3> Tutorial Command </h3> 
 
-The built-in *tutorial* command assists a user in getting started on 
-OSG.  To see the list of existing tutorials, type
+The built-in `tutorial` command assists a user in getting started on OSG.  To see the list of existing tutorials, type
 
 ~~~
 $ tutorial # will print a list tutorials
@@ -166,19 +168,19 @@ Tutorial files installed in ./tutorial-R.
 Running setup in ./tutorial-R...
 ~~~ 
 
-The "tutorial R" command creates a directory "osg-R" containing the neccessary script and input files. 
+The "tutorial R" command creates a directory "tutorial-R" containing the neccessary script and input files. 
 
 ~~~
-mciP.R      # The example R script file
+mcpi.R      # The example R script file
 R-wrapper.sh # The job execution file 
 R.submit  # The job submission file (will discuss later in the lesson HTCondor scripts)
 ~~~
 
-Lets focus on "mciP.R" and the "R-wrapper" scripts. The details of "R.submit" script 
+Lets focus on "mcpi.R" and the "R-wrapper" scripts. The details of "R.submit" script 
 will be discussed later when we learn HTCondor scripts.  
 
-The file "mciP.R" is a R script that calculates the value of *pi* using the Monte Carlo
-method.  The R-wrapper.sh essentially loads the R module and runs the "mciP.R" 
+The file "mcpi.R" is a R script that calculates the value of *pi* using the Monte Carlo
+method.  The R-wrapper.sh essentially loads the R module and runs the "mcpi.R" 
 script. 
 
 ~~~
