@@ -9,20 +9,68 @@ title: condor_annex on OSG Connect
 *   Discover how to use condor_annex to bring resources from Amazon AWS
 </div>
 
-
-<h2>Overview</h2>
-
 Please note that his is a technical preview. We expect features and interface
 to change rapidly, and if you have feedback, please sent it to
 user-support@opensciencegrid.org
 
 <h2>condor_annex</h2>
 
-*todo*
+* The condor_annex tool was first released last week, in HTCondor 8.7.0
+* Labeled as “experimental” because the interface(s) might change
+* First version has limited functionality and hence limited applicability
+
+Use cases
+
+* Deadlines
+* Capability - large memory, GPU, fast local storage, job policies
+* Capacity
+
+<h2>Setting up OSG Connect for AWS access</h2>
+
+Once you have created an `annex` user in the AWS IAM web interface, you
+will to run aws configure on the HTCondor submit host (training.osgconnect.net).
+When prompted, enter your AWS Access Key, AWS Secret Access Key from your saved
+credentials.csv file. You will also need to set the default region to us-east-1,
+and change the default output format type to json, as shown below:
+
+    [osguser00@training ~]$ aws configure
+    AWS Access Key ID [None]: ****************4FSQ
+    AWS Secret Access Key [None]: ****************RbV6
+    Default region name [None]: us-east-1
+    Default output format [None]: json
+
 
 <h2>setup-annex</h2>
 
-*todo*
+To launch HTCondor workers on AWS, you’ll need to run the setup-annex
+script provided on training.osgconnect.net. This script requires the
+following three options: 
+
+    --keypair : The name of the keypair installed into the root account of the Annex 
+    --vpc     : The Virtual Private Cloud to be used by HTCondor Annex
+    --subnets : The subnetwork used in your VPC
+
+For example:
+
+    [osguser00@training ~]$ setup-annex --keypair lb-condor-test --vpc vpc-c4c27ca1 --subnets subnet-a4958b8c
+    Using 'hnqcr3juafqfx7pg' as project ID.
+    The stack will be named 'htcondor-annex-condor-grid-uchicago-edu-hnqcr3juafqfx7pg'.
+    Checking to see if annex already exists... no.
+    Checking VPC for suitability:
+        DNS resolution... enabled
+        DNS hostnames... enabled
+    VPC is suitable.
+    Creating private S3 bucket to store pool password... done.
+    Uploading pool password file... done.
+    Uploading config file... done.
+    Starting annex (creating stack)... done.
+    Waiting for annex to create autoscaling groups... currently 0....................... .......................... done.
+    Splitting annex's desired size among 1 autoscaling groups... 1 done.
+    Waiting for annex to become size 6... currently 0........... done.
+    Waiting for count of annex instances in pool to become 5... done.
+
+For purposes of the demo, the setup-annex helper script will create 1 worker node with a spot market bid of $0.30/hr. Each worker node has 4 cores and 7.5GB of RAM. 
+
 
 <h2>Running jobs on the EC2 instances</h2>
 
