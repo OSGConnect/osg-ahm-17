@@ -115,7 +115,7 @@ will probably need some discussion with us to determine the best solution.
 First, we'll look at accessing Stash from the login node.  You'll need to log in to OSG Connect:
 
 ~~~
-ssh username@login.osgconnect.net #Connect to the login node with your username
+ssh username@training.osgconnect.net #Connect to the login node with your username
 passwd:       # your password
 ~~~
 
@@ -160,7 +160,7 @@ user@machine:/path/to/file .  Let's copy the file we just created from Stash to
 our local system:
 
 ~~~
-$ scp username@login.osgconnect.net:~/stash/public/my_hello_world.txt .
+$ scp username@training.osgconnect.net:~/stash/public/my_hello_world.txt .
 ~~~
 
 As you can see, `scp` uses similar syntax to the `cp` command that you were shown
@@ -168,7 +168,7 @@ previously.  To copy directories using `scp`, you'll just pass the `-r` option t
 it.  E.g:
 
 ~~~
-$ scp -r username@login.osgconnect.net:~/stash/public/my_directory .
+$ scp -r username@training.osgconnect.net:~/stash/public/my_directory .
 ~~~
 
 > #### Challenges
