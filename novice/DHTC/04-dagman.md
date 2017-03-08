@@ -16,8 +16,7 @@ title: Workflow management with DAGMan
 
 <h2> Overview </h2>
 
-In High Throughput Computing, one is typically faced with having to manage a large set of computational tasks. This can include situations in which tasks may be depend on one another. Workflow management systems can help relieve job management burden for the user. [DAGMan](http://research.cs.wisc.edu/htcondor/dagman/dagman.html) (Directed Acyclic Graph Manager) is a workflow management system based on graphs (see figures below) build into HTCondor. DAGMan handles sets of computational jobs 
-that can be described as a set of nodes in a "directed acyclic graph". This means that the job dependencies do not form a loop, see "Cyclic" vs. "Acyclic" figure below. 
+In High Throughput Computing, one is typically faced with having to manage a large set of computational tasks. This can include situations in which tasks may be depend on one another. Workflow management systems can help relieve job management burden for the user. [DAGMan](http://research.cs.wisc.edu/htcondor/manual/v8.5/2_10DAGMan_Applications.html) (Directed Acyclic Graph Manager) is a workflow management system based on graphs (see figures below) build into HTCondor. DAGMan handles sets of computational jobs that can be described as a set of nodes in a "directed acyclic graph". This means that the job dependencies do not form a loop, see "Cyclic" vs. "Acyclic" figure below. 
 
 ![fig 1](https://raw.githubusercontent.com/OSGConnect/tutorial-dagman-namd/master/DAGManImages/Slide1.png)
 
@@ -86,6 +85,25 @@ Let's monitor the job status every two seconds. (Recall `connect watch` from a p
     4 jobs; 0 completed, 0 removed, 4 idle, 1 running, 0 held, 0 suspended
 
 We need to type `Ctrl-C` to exit from watch command. We see five running jobs. One is the DAGMan job which manages the execution of jobs inside the DAG. The others are the jobs controlled by the DAG. Once the DAG completes, you will see four `.tar.gz` files `OutFilesFromNAMD_job0.tar.gz`, `OutFilesFromNAMD_job1.tar.gz`, `OutFilesFromNAMD_job2.tar.gz`, and `OutFilesFromNAMD_job3.tar.gz`. If the output files are not empty, the jobs are successfully completed. Of course, a thorough check requires inspection of the results.  
+
+<h4> DAGMan Log Files </h4>
+
+When submitting a DAGMan job HTCondor helpfully prompts you with what the log files are named and useful for:
+
+    $ condor_submit_dag nodependency.dag 
+
+    -----------------------------------------------------------------------
+    File for submitting this DAG to Condor           : nodependency.dag.condor.sub
+    Log of DAGMan debugging messages                 : nodependency.dag.dagman.out
+    Log of Condor library output                     : nodependency.dag.lib.out
+    Log of Condor library error messages             : nodependency.dag.lib.err
+    Log of the life of condor_dagman itself          : nodependency.dag.dagman.log
+    
+    Submitting job(s).
+    1 job(s) submitted to cluster 1317501.
+    -----------------------------------------------------------------------
+    
+The most important log here is `nodependency.dag.dagman.out`. It allows you to monitor the progress of the workflow, what jobs were just submitted, and how many jobs are at the various stages of submission, i.e. in the `PRE` or `POST` script phase, how many are `Ready` to be submitted, how many are waiting for other jobs to finish (`Un-Ready`), how many have failed or completed. Don't worry we will explain some of these terms in the following examples.
 
 <h3> Linear DAG </h3>
 
@@ -199,7 +217,7 @@ The input files, job submission files and execution scripts of the jobs are loca
 
 	$ cd tutorial-dagman-namd/X-DAG
 
-Again we are missing the `.dag` file here. See if you can write the DAG file for this example. 
+Again we are missing the `.dag` file here. See if you can write the DAG file for this example. Hint: Does the job in the center actually need to do anything? Check the docs!
 
 <h2> Job Retry and Rescue </h2>
 
@@ -225,9 +243,21 @@ If you want to retry jobs A2 and A3 for 7 times,  edit the linear.dag
  
  <h3> Rescue DAG </h3>
 
-If DAGMan fails to complete the complete task, it creates a rescue DAG file with a suffix `.rescueXXX`, where `XXX` is a number starting at `001`. The rescue DAG file contains the information about where to restart the jobs. Say for example, in our workflow of four linear jobs, the jobs `A0` and `A1` are finished and `A2` is incomplete. In such a case we do not want to start executing the jobs all over again but rather we want to start from Job `A2`. This information is embedded in the rescue DAG file. In our example of `linear.dag`, the rescue DAG file would be `linear.dag`. So we re-submit the rescue DAG task as follows:
+If DAGMan fails to complete the complete task, it creates a rescue DAG file with a suffix `.rescueXXX`, where `XXX` is a number starting at `001`. The rescue DAG file contains the information about which jobs have completed and which have failed or haven't completed. Say for example, in our workflow of four linear jobs, the jobs `A0` and `A1` are finished and `A2` is incomplete. In such a case, we do not want to start executing the jobs all over again but rather we want to start from Job `A2`. This information is embedded in the rescue DAG file. In our example of `linear.dag`, the rescue DAG file would be `linear.dag`. So we re-submit the rescue DAG task as follows:
 
 	$ condor_submit_dag linear.dag
+
+<h2> Submission Tuning </h2>
+
+One additional feature of DAGMan is that you are able to tune how many total jobs to have sitting in the queue or how fast jobs are submitted to the cluster. This is especially important if you have fairly large number of jobs, i.e. more than 10000. HTCondor can handle up to 200000 jobs in the queue simultaneously, but only on dedicated and specialized hardware. To accomodate other users on the OSG Connect system and reduce stress on the system, we recommend that you keep less than 30000 jobs in the queue in the idle state. 
+
+DAGMan can be configured to allow you operate within those limits. The simplest way is to pass a text file with your configuration parameters to `condor_submit_dag`: `condor_submit_dag -config dagman.config your_dag.dag`. The configuration file will look something like:
+
+    DAGMAN_MAX_JOBS_IDLE=30000
+    DAGMAN_USER_LOG_SCAN_INTERVAL=1
+    DAGMAN_MAX_SUBMITS_PER_INTERVAL=10
+
+`DAGMAN_MAX_JOBS_IDLE` tells your DAGMan job to limit the maximum number of jobs that are sitting in the queue to be 30000. `DAGMAN_USER_LOG_SCAN_INTERVAL` tells your DAGMan how often to look for a changed job state, i.e. that a job failed or completed. `DAGMAN_MAX_SUBMITS_PER_INTERVAL` is to tune how many jobs DAGMan submits every interval. The last two variables are for tuning how rapidly and how many jobs are submitted. For more configuration parameters and their documentation, go [here](http://research.cs.wisc.edu/htcondor/manual/v7.8/3_3Configuration.html#sec:DAGMan-Config-File-Entries)
  
 <div class="keypoints" markdown="1">
 #### Key Points
