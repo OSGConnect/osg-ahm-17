@@ -235,8 +235,7 @@ Let us submit the above job
     Submitting job(s)..........
     10 job(s) submitted to cluster 329840.
 
-Apply your `condor_q` and `connect watch` knowledge to see this job progress. After all 
-jobs finished, execute the `post_script.sh  script to sort the results. 
+Apply your `condor_q` and `connect watch` knowledge to see this job progress. After all jobs finished, execute the `post_script.sh  script to sort the results. 
 
     ./post_script.sh
 

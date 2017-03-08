@@ -102,7 +102,7 @@ Output = job.output
 # The LOG file is where HTCondor places information about your  job's status, success, and resource consumption. 
 Log = job.log
 
-# QUEUE is the "start button" - it launches any jobs that have been  specified thus far. 
+# Queue is the "start button" - it launches any jobs that have been  specified thus far. 
 Queue 1
 ~~~
 
