@@ -279,7 +279,7 @@ First, let's take a look at the HTCondor job submission script:
     transfer_input_files = $(queryfile)
 
     +WantsCvmfsStash = true
-    requirements = OSGVO_OS_STRING == "RHEL 6" && Arch == "X86_64" && HAS_MODULES == True
+    requirements = OSGVO_OS_STRING == "RHEL 6" && Arch == "X86_64" && HAS_MODULES == True && HAS_CVMFS_stash_osgstorage_org == True
 
     output = job.out.$(Cluster).$(Process)
     error = job.err.$(Cluster).$(Process)
