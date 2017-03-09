@@ -13,7 +13,7 @@ title: Large Scale Computation with HTCondor
 
 <h2> Overview </h2>
 
-Learning how to scale up and control large numbers of jobs is essential to realize the full potential of distributed high throughput computing on the OSG. This requires the ability to submit and process multiple jobs in parallel. Some workloads requiring these considerations: multi-dimensional Monte Carlo integration using sampling, parameter sweep(s) for a given model, or molecular dynamics simulation with several initial conditions. All of these workloads require submitting more than a handful of jobs. 
+It is essential to learn how to scale up and control large numbers of jobs to realize the full potential of distributed high throughput computing on the OSG. This requires the ability to submit and process multiple jobs in parallel. Some workloads require these considerations: multi-dimensional Monte Carlo integration using sampling, parameter sweep(s) for a given model, or molecular dynamics simulation with several initial conditions. All of these workloads require submitting more than a handful of jobs. 
 
 ![fig 1](https://raw.githubusercontent.com/OSGConnect/tutorial-ScalingUp-Python/master/Images/Slide1.png)
 
