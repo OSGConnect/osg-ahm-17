@@ -238,9 +238,10 @@ Read the output file. It should be something like this:
 
 ~~~
 $ cat job.output
-Start time: Mon Mar  6 00:08:06 CST 2017
-Job is running on node: training.osgconnect.netJob running as user: uid=46628(username) gid=46628(username) groups=46628(username),400(condor),401(ciconnect-staff),1000(users)
-Job is running in directory: /tmp/Test/tutorial-quickstart
+Start time: Wed Mar  8 18:16:04 CST 2017
+Job is running on node: cmswn2300.fnal.gov
+Job running as user: uid=12740(osg) gid=9652(osg) groups=9652(osg)
+Job is running in directory: /storage/local/data1/condor/execute/dir_2031614/glide_6B4s2O/execute/dir_887949
 
 Working hard...
 Science complete!
@@ -361,7 +362,7 @@ You can test this job by submitting and monitoring it as we have just covered:
 ~~~
 $ condor_submit osg-template-job.submit
 Submitting job(s).
-1 job(s) submitted to cluster 1149
+1 job(s) submitted to cluster 1151
 ~~~
 
 The filenames for this job includes a job id, which means that if you submit more
